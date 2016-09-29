@@ -32,6 +32,11 @@
 			<Add option="-Wall" />
 			<Add option="-fexceptions" />
 		</Compiler>
+		<Unit filename="src/loader/bf2mesh.c">
+			<Option compilerVar="CC" />
+		</Unit>
+		<Unit filename="src/loader/bf2mesh.h" />
+		<Unit filename="src/main.cpp" />
 		<Extensions>
 			<envvars />
 			<code_completion />

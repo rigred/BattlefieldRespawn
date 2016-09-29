@@ -1,6 +1,4 @@
 
-//#include <process.h>
-//#include <vld.h>
 #include <stdio.h>
 #include <string.h>
 #include <assert.h>
@@ -30,7 +28,8 @@ int main(int argnum, char *arg[])
     printf("---------------------------------------------\n");
     printf("BF2 Mesh Exporter v0.1.1\n");
     printf("By Rigo \"Pixel\" Reddig\n");
-    printf("For Project Reality Mod (www.realitymod.com)\n");
+    printf("For Battlefield Respawn Project\n");
+    printf("Based on Project Reality (www.realitymod.com)\n and Forgotten Hope (forgottenhope.warumdarum.de)\n");
     printf("---------------------------------------------\n");
 
     if (argnum != 2)

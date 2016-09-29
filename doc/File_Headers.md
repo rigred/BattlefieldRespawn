@@ -1,31 +1,72 @@
 ## BF2 Animation File Format Structure ##
+**Frame Quaternion Stream Compression Needs to be better understood**
 .baf
 
 ```cpp
 struct baf_file {
-
-	int64_t version; 		// signed int64 (8 bytes)
-	int bonenum; 			//32bit signed int (4 bytes)
-	int boneId; 			//32bit signed int (4 bytes)
-	int framenum; 			//32bit signed int (4 bytes)
-	unsigned char precision;//(Byte) unsigned 8bit Char (1 byte)
+	uint32_t version;      //32bit unsigned int (4 bytes)
+	uint16_t bonenum;      //16bit unsigned int (2 bytes)
+	uint16_t boneId;       //16bit unsigned int (2 bytes  * bonenum)
+	uint32_t framenum;     //32bit unsigned int (4 bytes)
+    uint8_t precision;     //8bit unsigned int (1 byte)
 	boneData *baf_bonedata;
 }
 
 struct baf_bonedata {
-	int dataSize;
+	uint16_t dataSize;     //16bit unsigned int (2 bytes)
 	frame *baf_frame;
 }
 
 struct baf_frame {
+    //header - WIP (Weird Stuff Happening)
+    unit8_t head;
 	quaternion rot;
 	float3 pos;
+	unit16_t offset; //Offset to next frame (Weirder Shit happening)
 }
 
 
 ```
 
+
+### Bone Data ###
+
+uint16_t dataSize - Sets the number of frames for this bone as a 16bit integer (65535 max)
+
+### Frame Data ###
+
+Each frame has:
+ * 1 Byte Header
+ * 8th bit of Header sets compression flag
+ * Crazy 16 bit **quaternion** and **position** data
+
+<u>1 Byte Header</u>
+
+| Decimal | 128 | 64 | 32 | 16 | 8 | 4 | 2 | 1 |
+|---------|-----|----|----|----|---|---|---|---|
+| Bit     |  1  |  1 |  1 |  0 | 1 | 0 | 1 | 1 |
+| Sets:   | -   |  - | -  | -  | - | - | - | RLE Compression Flag |
+| 234 Frames   | 128 | 64 | 32 | 0  | 8 | 0 | 2 | 1 |
+
+#### Quaternions & Positions ####
+7 streams of 16bit floating point values
+ * each stream may be RLE compressed
+ * 16bit floats require unpacking
+ * rotation values are using a fixed compression
+ * position values are using a variable compression
+
+
+```cpp
+
+unit16_t x,y,z,w; //16bit floats to store quaternion rotation
+unit16_t x,y,z;     //16bit floats to store position
+
+```
+
+
 ## BF2 Skeleton File Format Structure ##
+
+**Needs Fixing**
 .ske
 
 ```cpp
@@ -57,7 +98,7 @@ struct skenode {
 ```
 
 ## BF2 Occluder File Format Structure ##
-
+**Needs Fixing**
 ```cpp
 struct occ_file {
 	int64_t groupnum;
