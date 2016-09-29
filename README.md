@@ -25,7 +25,7 @@ To Solve this the Battlefield Respawn Project aims to create a data compatible g
 ## Details ##
 
 ### File Format Reverse Engineering ###
- 1. [Mesh File Headers](../doc/File_Headers.md)
+ 1. [Mesh File Headers](../blob/master/doc/File_Headers.md)
 
 
 ## TODO ##
